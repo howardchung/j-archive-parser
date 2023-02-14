@@ -35,7 +35,8 @@ def create_save_folder():
 #Get a list of all seasons from the list season page. Then iterate through list, parsing
 #each season (using multithreading to have, typically, four seasons being parsed at once.)
 def get_all_seasons():
-	seasons = sorted([int(re.search(r'(\d+)', d).group(1)) for d in os.listdir(SITE_FOLDER) if os.path.isdir(os.path.join(SITE_FOLDER, d))])
+	# seasons = sorted([int(re.search(r'(\d+)', d).group(1)) for d in os.listdir(SITE_FOLDER) if os.path.isdir(os.path.join(SITE_FOLDER, d))])
+	seasons = list(range(37,47))
 
 	with futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
 		for season in seasons:

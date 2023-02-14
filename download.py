@@ -18,7 +18,7 @@ except (ImportError, NotImplementedError):
 
 def main():
 	create_save_folder()
-	seasons = list(range(1,36))
+	seasons = list(range(37,47))
 	with futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
 		for season in seasons:
 			f = executor.submit(download_season, season)
@@ -34,18 +34,18 @@ def download_season(season):
 	if not os.path.isdir(season_folder):
 		sys_print("Creating season {} folder".format(season))
 		os.mkdir(season_folder)
-	seasonPage = requests.get('http://j-archive.com/showseason.php?season={}'.format(season))
+	seasonPage = requests.get('https://j-archive.com/showseason.php?season={}'.format(season))
 	seasonSoup = BeautifulSoup(seasonPage.text, 'lxml')
 	epIdRe = re.compile(r'game_id=(\d+)')
 	epNumRe = re.compile(r'\#(\d{1,4})')
-	episodeRe = re.compile(r'http:\/\/www\.j-archive\.com\/showgame\.php\?game_id=[0-9]+')
+	episodeRe = re.compile(r'https:\/\/j-archive\.com\/showgame\.php\?game_id=[0-9]+')
 	episodeLinks = [link for link in seasonSoup.find_all('a') if episodeRe.match(link.get('href'))][::-1]
 	for link in episodeLinks:
 		episodeNumber = epNumRe.search(link.text.strip()).group(1)
 		gameFile = os.path.join(season_folder,'{}.html'.format(episodeNumber))
 		if not os.path.isfile(gameFile):
 			episodeId = epIdRe.search(link['href']).group(1)
-			gamePage = requests.get('http://j-archive.com/showgame.php?game_id={}'.format(episodeId))
+			gamePage = requests.get('https://j-archive.com/showgame.php?game_id={}'.format(episodeId))
 			open(gameFile, 'wb').write(gamePage.content)
 			time.sleep(5)
 	sys_print('Season {} finished'.format(season))
