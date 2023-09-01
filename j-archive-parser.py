@@ -36,7 +36,7 @@ def create_save_folder():
 #each season (using multithreading to have, typically, four seasons being parsed at once.)
 def get_all_seasons():
 	# seasons = sorted([int(re.search(r'(\d+)', d).group(1)) for d in os.listdir(SITE_FOLDER) if os.path.isdir(os.path.join(SITE_FOLDER, d))])
-	seasons = list(range(37,47))
+	seasons = list(range(39,47))
 
 	with futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
 		for season in seasons:
@@ -57,13 +57,17 @@ def parse_season(season):
 		#Write titles to csv file
 		episodeWriter.writerow(['epNum', 'airDate', 'extra_info', 'round_name', 'coord', 'category', 'order', 'value', 'daily_double', 'question', 'answer', 'correctAttempts', 'wrongAttempts'])
 		for file_i in range(len(files)):
-			print('\rSeason {}: Parsing episode {}/{}'.format(season,file_i,len(files)), flush=True)
-			ep = parse_episode(files[file_i])
-			if ep:
-				ep = [[[clueElement for clueElement in clue] for clue in round] for round in ep]
-				for round in ep:
-					for question in round:
-						episodeWriter.writerow(question)
+			print('\rSeason {}: Parsing episode {}/{} {}'.format(season,file_i,len(files), files[file_i]), flush=True)
+			try:
+				ep = parse_episode(files[file_i])
+				if ep:
+					ep = [[[clueElement for clueElement in clue] for clue in round] for round in ep]
+					for round in ep:
+						for question in round:
+							episodeWriter.writerow(question)
+			except Exception as e:
+				raise e
+
 	print('Season {} complete'.format(season))
 
 def parse_episode(episodeLink):
@@ -143,8 +147,16 @@ def parse_round(round, table, epNum, airDate, extraInfo):
 					value = (-100,)
 				question = clue.find('td', class_='clue_text').text
 				#Answers to questions (both right and wrong) are in hover, each with a class to specify color
-				answer = BeautifulSoup(clue.find('div', onmouseover=True).get('onmouseover'), 'lxml').find('em', class_='correct_response').text
-				daily_double = True if re.match(r'DD:', valueRaw) else False
+				old_answer = BeautifulSoup(clue.find('div', onmouseover=True).get('onmouseover'), 'lxml').find('em', class_='correct_response')
+				# new answer format is just in the html rather than buried in onmouseover
+				new_answer = clue.find('em', class_='correct_response')
+				if new_answer:
+					answer = new_answer.text
+				elif old_answer:
+					answer = old_answer.text
+				else:
+					raise Exception("error in answer parsing")
+				daily_double = True if re.match(r'DD:', valueRaw) else False	
 				wrong = BeautifulSoup(clue.find('div', onmouseover=True).get('onmouseover'), 'lxml').find_all('td', class_='wrong')
 				n = len(wrong)
 				for w in wrong:
@@ -161,6 +173,7 @@ def parse_round(round, table, epNum, airDate, extraInfo):
 				category = categories[x]
 				round_name = 'Jeopardy' if round == 0 else 'Double Jeopardy'
 				#Add all retrieved data onto array
+				print(epNum, airDate, round_name, coord, valueRaw, value, question, answer, daily_double)
 				roundClues.append([epNum, airDate, extraInfo, round_name, coord, category, order, value, daily_double, question, answer, correctAttempts, wrongAttempts])
 			#Tracking current column
 			x = 0 if x == 5 else x + 1
@@ -170,7 +183,18 @@ def parse_round(round, table, epNum, airDate, extraInfo):
 		rawValue = [x.text for x in BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'lxml').find_all(lambda tag: tag.name == 'td' and not tag.attrs)]
 		value = tuple([int(v.lstrip('D: $').replace(',','')) for v in rawValue])
 		question = table.find('td', id='clue_FJ').text
-		answer = BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'lxml').find('em').text
+
+		#Answers to questions (both right and wrong) are in hover, each with a class to specify color
+		old_answer = BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'lxml').find('em')
+		# new answer format is just in the html rather than buried in onmouseover
+		new_answer = table.find('em', class_='correct_response')
+		if new_answer:
+			answer = new_answer.text
+		elif old_answer:
+			answer = old_answer.text
+		else:
+			raise Exception("error in answer parsing")
+
 		daily_double = False
 		wrongAttempts = len(BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'lxml').find_all('td', class_='wrong'))
 		correctAttempts = len(BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'lxml').find_all('td', class_='right'))

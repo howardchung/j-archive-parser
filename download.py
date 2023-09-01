@@ -18,7 +18,7 @@ except (ImportError, NotImplementedError):
 
 def main():
 	create_save_folder()
-	seasons = list(range(37,47))
+	seasons = list(range(39,47))
 	with futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
 		for season in seasons:
 			f = executor.submit(download_season, season)
