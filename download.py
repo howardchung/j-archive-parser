@@ -45,7 +45,7 @@ def download_season(season):
 			episodeId = epIdRe.search(link['href']).group(1)
 			gamePage = requests.get('https://j-archive.com/showgame.php?game_id={}'.format(episodeId))
 			open(gameFile, 'wb').write(gamePage.content)
-			time.sleep(5)
+			time.sleep(2)
 	sys_print('Season {} finished'.format(season))
 
 def sys_print(string):
