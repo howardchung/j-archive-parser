@@ -36,7 +36,7 @@ def download_season(season):
 	seasonSoup = BeautifulSoup(seasonPage.text, 'html.parser')
 	epIdRe = re.compile(r'game_id=(\d+)')
 	epNumRe = re.compile(r'\#(\d{1,4})')
-	episodeRe = re.compile(r'https:\/\/j-archive\.com\/showgame\.php\?game_id=[0-9]+')
+	episodeRe = re.compile(r'showgame\.php\?game_id=[0-9]+')
 	episodeLinks = [link for link in seasonSoup.find_all('a') if episodeRe.match(link.get('href'))][::-1]
 	for link in episodeLinks:
 		episodeNumber = epNumRe.search(link.text.strip()).group(1)

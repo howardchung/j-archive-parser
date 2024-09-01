@@ -203,7 +203,7 @@ def parse_round(round, table, epNum, airDate, extraInfo):
 		coord = (1,1)
 		value = ()
 		question = table.find('td', id='clue_TB').text
-		answer = BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'html.parser').find('em').text
+		answer = BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'html.parser').find('em')
 		daily_double = False
 		wrongAttempts = len(BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'html.parser').find_all('td', class_='wrong'))
 		correctAttempts = len(BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'html.parser').find_all('td', class_='right'))
