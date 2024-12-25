@@ -6,8 +6,3 @@ J-Archive parser traverses through the pages of [j-archive.com](http://j-archive
 Script was written using Python 2, so using Python 3+ may cause issues.
 
 Required packages can be found in `reuiqrements.txt`, and installed using `pip install -r requirements.txt`
-
-# Quickstart
-* Edit season range in download.py and j-archive-parser.py
-* `python3 download.py`
-* `python3 j-archive-parser.py`

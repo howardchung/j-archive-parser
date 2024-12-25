@@ -1,0 +1,50 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      # Fetch the last json.gz file (not needed unless we want to diff contents to reduce processing)
+      # - run: curl -sSL https://github.com/howardchung/j-archive-parser/raw/release/jeopardy.json.gz > ./jeopardy.json.gz
+      # Download new episodes that we don't already have (search a reasonable season range based on year)
+      # Parse HTML episodes into CSVs (one file per ep)
+      # Build jeopardy.json.gz from CSVs
+      - run: npm run build
+      # Push to release branch
+      - name: Push to remote
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: |
+          git config --global user.name "github-actions[bot]"	
+          git config --global user.email "jeopardy+github-actions[bot]@users.noreply.github.com"	
+          rm .gitignore	
+          git checkout -b release
+          git add --all
+          git commit --quiet -m "Built from ${{ github.sha }}" 	
+          git push origin release -f

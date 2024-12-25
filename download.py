@@ -6,16 +6,21 @@ import time
 import requests
 import concurrent.futures as futures
 import multiprocessing
+import datetime
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-SITE_FOLDER = os.path.join(CURRENT_DIR, 'j-archive archive')
+SITE_FOLDER = os.path.join(CURRENT_DIR, 'html')
 NUM_THREADS = 1
 # NUM_THREADS = multiprocessing.cpu_count()
 
-
 def main():
 	create_save_folder()
-	seasons = list(range(40,47))
+	# Season 41 is 2024-2025, so e.g. in 2025 we want to do 41 and 42
+	today = datetime.date.today()
+	year = today.year
+	startSeason = year - 1984
+	# python range is exclusive
+	seasons = list(range(startSeason,startSeason + 2))
 	with futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
 		for season in seasons:
 			# f = executor.submit(download_season, season)
@@ -28,10 +33,6 @@ def create_save_folder():
 
 def download_season(season):
 	sys_print('Downloading Season {}'.format(season))
-	season_folder = os.path.join(SITE_FOLDER, "season {}".format(season))
-	if not os.path.isdir(season_folder):
-		sys_print("Creating season {} folder".format(season))
-		os.mkdir(season_folder)
 	seasonPage = requests.get('https://j-archive.com/showseason.php?season={}'.format(season))
 	seasonSoup = BeautifulSoup(seasonPage.text, 'html.parser')
 	epIdRe = re.compile(r'game_id=(\d+)')
@@ -40,7 +41,7 @@ def download_season(season):
 	episodeLinks = [link for link in seasonSoup.find_all('a') if episodeRe.match(link.get('href'))][::-1]
 	for link in episodeLinks:
 		episodeNumber = epNumRe.search(link.text.strip()).group(1)
-		gameFile = os.path.join(season_folder,'{}.html'.format(episodeNumber))
+		gameFile = os.path.join(SITE_FOLDER,'{}.html'.format(episodeNumber))
 		if not os.path.isfile(gameFile):
 			episodeId = epIdRe.search(link['href']).group(1)
 			gamePage = requests.get('https://j-archive.com/showgame.php?game_id={}'.format(episodeId))
