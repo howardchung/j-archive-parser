@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22]
+        node-version: [24]
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
       - run: pip install -r requirements.txt
       # Fetch the last json.gz file (not needed unless we want to diff contents to reduce processing)
       # - run: curl -sSL https://github.com/howardchung/j-archive-parser/raw/release/jeopardy.json.gz > ./jeopardy.json.gz
-      # Download new episodes that we don't already have (search a reasonable season range based on year)
+      # Download new episodes that we don't already have (starting from 2025 and update every once in a while)
       # Parse HTML episodes into CSVs (one file per ep)
       # Build jeopardy.json.gz from CSVs
       - run: npm run build

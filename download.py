@@ -4,27 +4,26 @@ import os
 import sys
 import time
 import requests
-import concurrent.futures as futures
-import multiprocessing
 import datetime
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SITE_FOLDER = os.path.join(CURRENT_DIR, 'html')
-NUM_THREADS = 1
+# NUM_THREADS = 1
 # NUM_THREADS = multiprocessing.cpu_count()
 
 def main():
 	create_save_folder()
 	# Season 41 is 2024-2025, so e.g. in 2025 we want to do 41 and 42
-	today = datetime.date.today()
-	year = today.year
-	startSeason = year - 1984
+	# today = datetime.date.today()
+	# year = today.year
+	# startSeason = year - 1984
+	# Pick a season to start at. We can bump this occasionally to reduce processing time, but can't compute dynamically in case we don't update for a few years
+	# Otherwise, we need to resolve the last episode number back to a season number
+	startSeason = 41
 	# python range is exclusive
 	seasons = list(range(startSeason,startSeason + 2))
-	with futures.ThreadPoolExecutor(max_workers=NUM_THREADS) as executor:
-		for season in seasons:
-			# f = executor.submit(download_season, season)
-			download_season(season)
+	for season in seasons:
+		download_season(season)
 
 def create_save_folder():
 	if not os.path.isdir(SITE_FOLDER):

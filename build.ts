@@ -1,15 +1,15 @@
-const Papa = require('papaparse');
-const fs = require('fs');
-const { gzipSync } = require('zlib');
+import Papa from 'papaparse';
+import fs from 'node:fs';
+import { gzipSync } from 'node:zlib';
 
 const dataDir = './csv/';
 const files = fs.readdirSync(dataDir);
-let all = [];
+let all: any[] = [];
 let qCount = 0;
 let epCount = 0;
 files.forEach((file) => {
-  const season = fs.readFileSync(dataDir + file, 'utf-8');
-  const output = Papa.parse(season, { header: true });
+  const ep = fs.readFileSync(dataDir + file, 'utf-8');
+  const output = Papa.parse(ep, { header: true });
   if (output.data.length === 0) {
     throw new Error('got file with no data: ' + file);
   }
@@ -37,7 +37,7 @@ all.forEach((row, i) => {
   }
 });
 // Store a set of episode IDs, map to episode info
-let output = {};
+let output: Record<string, any> = {};
 all.forEach((row) => {
   if (!row.epNum) {
     return;

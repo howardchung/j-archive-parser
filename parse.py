@@ -5,13 +5,11 @@ import sys
 import os
 import re
 import csv
-import concurrent.futures as futures
-import multiprocessing
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 SITE_FOLDER = os.path.join(CURRENT_DIR, "html")
 SAVE_FOLDER = os.path.join(CURRENT_DIR, "csv")
-NUM_THREADS = 1
+# NUM_THREADS = 1
 # NUM_THREADS = multiprocessing.cpu_count()
 
 def main():
@@ -32,7 +30,7 @@ def parse_season():
 		saveFile = os.path.join(SAVE_FOLDER, files[file_i].split('/')[-1] + '.csv')
     	# skip if output filename already exists
 		if os.path.isfile(saveFile):
-			print('Skipping {}'.format(files[file_i]))
+			# print('Skipping {}'.format(files[file_i]))
 			continue
 		# Create csv file in write mode with utf-8 encoding
 		with open(saveFile,'w',newline='',encoding='utf-8') as csvfile:

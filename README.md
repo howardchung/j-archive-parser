@@ -5,4 +5,4 @@ J-Archive parser traverses through the pages of [j-archive.com](http://j-archive
 ## Setup
 Script was written using Python 2, so using Python 3+ may cause issues.
 
-Required packages can be found in `reuiqrements.txt`, and installed using `pip install -r requirements.txt`
+Required packages can be found in `requirements.txt`, and installed using `pip install -r requirements.txt`
