@@ -49,23 +49,25 @@ def parse_season():
 			except Exception as e:
 				raise e
 
-def parse_episode(episodeLink):
+def parse_episode(fileName):
 	#Get episode page
-	episode = open(episodeLink, encoding="utf-8")
+	episode = open(fileName, encoding="utf-8")
 	soupEpisode = BeautifulSoup(episode, 'html.parser')
 	episode.close()
 
 	#Get episode number (different from ID) from page title
-	epNum = re.search(r'#(\d+)', soupEpisode.title.text).group(1)
+	# epNum = re.search(r'#(\d+)', soupEpisode.title.text).group(1)
+	# Switch to getting the epNum from the filename to handle special seasons
+	epNum = fileName.split('/')[-1].split('.')[0]
 	#Get extra info about episode from top of page
 	extraInfo = soupEpisode.find('div', id='game_comments').text
 	#Check for special season names (Super Jeopardy, Trebek Pilots, anything non-number)
-	sj = re.compile(r'(Super Jeopardy!) show #(\d+)')
-	if sj.search(soupEpisode.title.text):
-		epNum = ' '.join(sj.search(soupEpisode.title.text).groups())
-	trbk = re.compile(r'(Trebek pilot) #(\d+)')
-	if trbk.search(soupEpisode.title.text):
-		epNum = ' '.join(trbk.search(soupEpisode.title.text).groups())
+	# sj = re.compile(r'(Super Jeopardy!) show #(\d+)')
+	# if sj.search(soupEpisode.title.text):
+	# 	epNum = ' '.join(sj.search(soupEpisode.title.text).groups())
+	# trbk = re.compile(r'(Trebek pilot) #(\d+)')
+	# if trbk.search(soupEpisode.title.text):
+	# 	epNum = ' '.join(trbk.search(soupEpisode.title.text).groups())
 	#Get episode air date from page title (format YYYY-MM-DD)
 	airDate = re.search(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', soupEpisode.title.text).group()
 

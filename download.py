@@ -17,11 +17,14 @@ def main():
 	# today = datetime.date.today()
 	# year = today.year
 	# startSeason = year - 1984
-	# Pick a season to start at. We can bump this occasionally to reduce processing time, but can't compute dynamically in case we don't update for a few years
-	# Otherwise, we need to resolve the last episode number back to a season number
+	# Pick a season to start at. We can bump this occasionally once season is complete
+	# but can't compute dynamically since we might miss episodes if we don't update for a while
+	# To fix we need to resolve the last episode number back to a season number and start there
 	startSeason = 41
 	# python range is exclusive
 	seasons = list(range(startSeason,startSeason + 2))
+	# Add special seasons (if complete, only need to process once when added)
+	# seasons.extend(['cwcpi', 'jm', 'pcj', 'ncc', 'goattournament', 'bbab', 'superjeopardy', 'trebekpilots'])
 	for season in seasons:
 		download_season(season)
 
@@ -39,8 +42,9 @@ def download_season(season):
 	episodeRe = re.compile(r'showgame\.php\?game_id=[0-9]+')
 	episodeLinks = [link for link in seasonSoup.find_all('a') if episodeRe.match(link.get('href'))][::-1]
 	for link in episodeLinks:
+		prefix = "" if isinstance(season, int) else season + "_"
 		episodeNumber = epNumRe.search(link.text.strip()).group(1)
-		gameFile = os.path.join(SITE_FOLDER,'{}.html'.format(episodeNumber))
+		gameFile = os.path.join(SITE_FOLDER,'{}.html'.format(prefix + episodeNumber))
 		if not os.path.isfile(gameFile):
 			episodeId = epIdRe.search(link['href']).group(1)
 			gamePage = requests.get('https://j-archive.com/showgame.php?game_id={}'.format(episodeId))
