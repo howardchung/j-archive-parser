@@ -74,6 +74,7 @@ def parse_episode(fileName):
 	#Booleans to check if page has each round type
 	hasRoundJ = True if soupEpisode.find(id='jeopardy_round') else False
 	hasRoundDJ = True if soupEpisode.find(id='double_jeopardy_round') else False
+	hasRoundTJ = True if soupEpisode.find(id='triple_jeopardy_round') else False
 	hasRoundFJ = True if soupEpisode.find(id='final_jeopardy_round') else False
 	hasRoundTB = True if len(soupEpisode.find_all(class_='final_round')) > 1 else False
 
@@ -90,14 +91,19 @@ def parse_episode(fileName):
 		#Pass epNum and airDate to so all info can be added into array as a question at once
 		parsedRounds.append(parse_round(1, dj_table, epNum, airDate, extraInfo))
 
+	if hasRoundTJ:
+		tj_table = soupEpisode.find(id='triple_jeopardy_round')
+		#Pass epNum and airDate to so all info can be added into array as a question at once
+		parsedRounds.append(parse_round(2, tj_table, epNum, airDate, extraInfo))
+
 	if hasRoundFJ:
 		fj_table = soupEpisode.find(id='final_jeopardy_round').find_all(class_='final_round')[0]
 		#Pass epNum and airDate to so all info can be added into array as a question at once
-		parsedRounds.append(parse_round(2, fj_table, epNum, airDate, extraInfo))
+		parsedRounds.append(parse_round(3, fj_table, epNum, airDate, extraInfo))
 	
 	if hasRoundTB:
 		tb_table = soupEpisode.find(id='final_jeopardy_round').find_all(class_='final_round')[1]
-		parsedRounds.append(parse_round(3, tb_table, epNum, airDate, extraInfo))
+		parsedRounds.append(parse_round(4, tb_table, epNum, airDate, extraInfo))
 
 	#Some episodes have pages, but don't have any actual episode content in them
 	if parsedRounds:
@@ -109,7 +115,7 @@ def parse_episode(fileName):
 #Final is different than regular and double. Only has a single clue, and has multiple responses and bets.
 def parse_round(round, table, epNum, airDate, extraInfo):
 	roundClues = []
-	if round < 2:
+	if round < 3:
 		#Get list of category names
 		categories = [cat.text for cat in table.find_all('td', class_='category_name')]
 		#Variable for tracking which column (category) currently getting clues from
@@ -152,13 +158,18 @@ def parse_round(round, table, epNum, airDate, extraInfo):
 				totalAttemps = wrongAttempts + correctAttempts
 				order = clue.find('td', class_='clue_order_number').text
 				category = categories[x]
-				round_name = 'Jeopardy' if round == 0 else 'Double Jeopardy'
+				if round == 1:
+					round_name = 'Double Jeopardy'
+				elif round == 2:
+					round_name = 'Triple Jeopardy'
+				else:
+					round_name = 'Jeopardy'
 				#Add all retrieved data onto array
 				# print(epNum, airDate, round_name, coord, valueRaw, value, question, answer, daily_double)
 				roundClues.append([epNum, airDate, extraInfo, round_name, coord, category, order, value, daily_double, question, answer, correctAttempts, wrongAttempts])
 			#Tracking current column
 			x = 0 if x == 5 else x + 1
-	elif round == 2:
+	elif round == 3:
 		#Final Jeopardy
 		coord = (1,1)
 		rawValue = [x.text for x in BeautifulSoup(table.find('div', onmouseover=True).get('onmouseover'), 'html.parser').find_all(lambda tag: tag.name == 'td' and not tag.attrs)]

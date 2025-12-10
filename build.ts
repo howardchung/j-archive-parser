@@ -32,6 +32,8 @@ all.forEach((row, i) => {
     all[i].value = 0;
   } else if (all[i].round_name === 'double') {
     all[i].value = all[i].ycoord * 400;
+  } else if (all[i].round_name === 'triple') {
+    all[i].value = all[i].ycoord * 600;
   } else {
     all[i].value = all[i].ycoord * 200;
   }
@@ -67,6 +69,7 @@ all.forEach((row) => {
       info,
       jeopardy: [],
       double: [],
+      triple: [],
       final: [],
     };
   }
