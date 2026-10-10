@@ -22,7 +22,7 @@ def main():
 	# To fix we need to resolve the last episode number back to a season number and start there
 	startSeason = 41
 	# python range is exclusive
-	seasons = list(range(startSeason,startSeason + 2))
+	seasons = list(range(startSeason,startSeason + 5))
 	# Add special seasons (if complete, only need to process once when added)
 	# seasons.extend(['cwcpi', 'jm', 'pcj', 'ncc', 'goattournament', 'bbab', 'superjeopardy', 'trebekpilots'])
 	for season in seasons:
