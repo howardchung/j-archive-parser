@@ -1,0 +1,1704 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>J! Archive - Show #9631, aired 2026-10-05</title>
+<link type="text/css" rel="styleSheet" href="styles.css" />
+<link rel="shortcut icon" href="https://j-archive.com/favicon.ico" /><meta name="keywords" content="Jeopardy Archive Jason Vincze Erika Niemi Rian Robertson Final clue response question answer Daily Double" /><meta name="description" content="An archive of Jeopardy! clues and players for Show #9631." /><meta property="article:published_time" content="2026-10-05T19:00:39+00:00" /><meta name="loadtime" content="0.0084569454193115" />
+</head>
+<body>
+
+<div id="navbar">
+  <span id="navbarlogo"><a href="index.php"><img src="j-a.gif" width="100" height="22" alt="J! Archive" /></a></span>
+  <span id="navbartext"><a href="showseason.php?season=43">[current season]</a> <a href="showseason.php?season=42">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+    <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
+      <fieldset class="noborder">
+        <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" autocomplete="off" />
+        <input type="submit" class="search_button" name="submit" value="Search" />
+      </fieldset>
+      <div id="search-suggestions" class="search-suggestions-dropdown"></div>
+    </form>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("search");
+        const suggestionsBox = document.getElementById("search-suggestions");
+        let debounceTimer;
+        let selectedIndex = -1;
+
+        function updatePosition() {
+            const rect = input.getBoundingClientRect();
+            suggestionsBox.style.top = (rect.bottom + window.scrollY) + "px";
+            suggestionsBox.style.left = (rect.left + window.scrollX) + "px";
+        }
+
+        function getItems() {
+            return suggestionsBox.querySelectorAll(".suggestion-item");
+        }
+
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                if (index === selectedIndex) {
+                    item.classList.add("selected");
+                    item.scrollIntoView({ block: "nearest" });
+                } else {
+                    item.classList.remove("selected");
+                }
+            });
+        }
+
+        input.addEventListener("input", function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            selectedIndex = -1;
+
+            if (query.length < 2) {
+                suggestionsBox.innerHTML = "";
+                suggestionsBox.classList.remove("active");
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch("https://j-archive.com/suggest.php?q=" + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        let hasResults = false;
+
+                        const buildGroup = (title, items) => {
+                            if (!items || items.length === 0) return "";
+                            hasResults = true;
+                            let groupHtml = "<div class=\"suggestion-group-title\">" + title + "</div>";
+
+                            items.forEach(item => {
+                                groupHtml += "<a href=\"" + item.url + "\" class=\"suggestion-item\">" + escapeHtml(item.label) + "</a>";
+                            });
+                            return groupHtml;
+                        };
+
+                        if (data) {
+                            html += buildGroup("Players", data.players);
+                            html += buildGroup("Games", data.games);
+                            html += buildGroup("Clues", data.clues);
+                        }
+
+                        if (hasResults) {
+                            updatePosition();
+                            suggestionsBox.innerHTML = html;
+                            suggestionsBox.classList.add("active");
+                            selectedIndex = -1;
+                        } else {
+                            suggestionsBox.innerHTML = "";
+                            suggestionsBox.classList.remove("active");
+                        }
+                    })
+                    .catch(() => {
+                        suggestionsBox.classList.remove("active");
+                    });
+            }, 250);
+        });
+
+        // Keyboard Navigation (ArrowDown, ArrowUp, Enter, Escape)
+        input.addEventListener("keydown", function(e) {
+            if (!suggestionsBox.classList.contains("active")) return;
+
+            const items = getItems();
+            if (items.length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex++;
+                if (selectedIndex >= items.length) {
+                    selectedIndex = 0; // Wrap back to top item
+                }
+                updateHighlight(items);
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = items.length - 1; // Wrap to bottom item
+                }
+                updateHighlight(items);
+            } else if (e.key === "Enter") {
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    e.preventDefault(); // Stop form submission
+                    window.location.href = items[selectedIndex].href; // Navigate directly to link target
+                }
+            } else if (e.key === "Escape") {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.addEventListener("resize", updatePosition);
+
+        document.addEventListener("click", function(e) {
+            if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+    });
+    </script>
+</div>
+<div id="content">
+            <div id="game_title"><h1>Show #9631 - Monday, October 5, 2026</h1></div>
+            <div id="game_comments">Rian Robertson game 3.</div>
+            <div id="contestants">
+            <h2>Contestants</h2>
+              <table id="contestants_table"><tr>
+                <td align="left" valign="middle" style="width:150px">
+                  <a href="showgame.php?game_id=9547">[&lt;&lt; previous game]</a>
+                </td>
+                <td>
+                  <p class="contestants"><a href="showplayer.php?player_id=18659" target="_blank">Jason Vincze</a>, a bar owner from New York, New York</p>
+                  <p class="contestants"><a href="showplayer.php?player_id=18660" target="_blank">Erika Niemi</a>, an aspiring actuary from Flagstaff, Arizona</p>
+                  <p class="contestants"><a href="showplayer.php?player_id=18656" target="_blank">Rian Robertson</a>, a software developer from Ottawa, Ontario (whose 2-day cash winnings total $25,901)</p>
+                </td>
+                <td align="right" valign="middle" style="width:150px">
+                  <a href="showgame.php?game_id=9549">[next game &gt;&gt;]</a>
+                </td>
+              </tr></table>
+            </div>
+            <div id="jeopardy_round">
+              <h2>Jeopardy! Round</h2>
+
+<table class="round">
+  <tr>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">21st CENTURY WORLD NEWS</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">A CAPITAL IDEA</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">DURABILITY</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">REALITY TV SHOWS BY JUDGES</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">8-LETTER VERBS</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name"><a href="https://www.j-archive.com/media/2026-10-05_J_Cat6.jpg" target="_blank">ME LOVE COOKIES!</a></td></tr>
+  <tr><td class="category_comments">(Cookie Monster: Me Cookie Monster, and me here to talk astrophysics. Just kidding! Me here for delicious tasty category about cookie! [Eating] Om nom nom nom... ahh!)</td></tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_1_1', 'clue_J_1_1_r', 'clue_J_1_1_stuck')" onmouseout="toggle('clue_J_1_1_r', 'clue_J_1_1', 'clue_J_1_1_stuck')" onclick="togglestick('clue_J_1_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_1_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558224" title="Suggest a correction for this clue" rel="nofollow">23</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_1_1" class="clue_text">10 ft. long &amp; weighing 2,000 lbs., <a href="https://www.j-archive.com/media/2026-10-05_J_23.jpg" target="_blank">this</a> NASA rover landed in Gale crater on Mars in 2012; luckily, no cat was below it</td>
+    <td id="clue_J_1_1_r" class="clue_text" style="display:none;"><em class="correct_response"><i>Curiosity</i></em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_2_1', 'clue_J_2_1_r', 'clue_J_2_1_stuck')" onmouseout="toggle('clue_J_2_1_r', 'clue_J_2_1', 'clue_J_2_1_stuck')" onclick="togglestick('clue_J_2_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_2_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558217" title="Suggest a correction for this clue" rel="nofollow">20</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_2_1" class="clue_text"><a href="https://www.j-archive.com/media/2026-10-05_J_20.jpg" target="_blank">Wadi Laban Bridge</a> is a cable-stayed bridge in this Saudi capital</td>
+    <td id="clue_J_2_1_r" class="clue_text" style="display:none;"><em class="correct_response">Riyadh</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_3_1', 'clue_J_3_1_r', 'clue_J_3_1_stuck')" onmouseout="toggle('clue_J_3_1_r', 'clue_J_3_1', 'clue_J_3_1_stuck')" onclick="togglestick('clue_J_3_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_3_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558229" title="Suggest a correction for this clue" rel="nofollow">28</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_3_1" class="clue_text">In the Bible, après le déluge, he lived "three hundred and fifty years"</td>
+    <td id="clue_J_3_1_r" class="clue_text" style="display:none;">(Ken: Yes, after the flood.)<br /><br /><em class="correct_response">Noah</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_4_1', 'clue_J_4_1_r', 'clue_J_4_1_stuck')" onmouseout="toggle('clue_J_4_1_r', 'clue_J_4_1', 'clue_J_4_1_stuck')" onclick="togglestick('clue_J_4_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_4_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558230" title="Suggest a correction for this clue" rel="nofollow">30</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_4_1" class="clue_text">Luke Bryan, Lionel Richie</td>
+    <td id="clue_J_4_1_r" class="clue_text" style="display:none;">(Erika: What is <i>America's Got Talent</i>?)<br />(Jason: What is <i>The Voice</i>?)<br />...<br />(Ken: No reality TV fans here, I think.)<br /><br /><em class="correct_response"><i>American Idol</i></em><br /><br /><table width="100%"><tr><td class="wrong">Erika</td><td class="wrong">Jason</td></tr></table><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_5_1', 'clue_J_5_1_r', 'clue_J_5_1_stuck')" onmouseout="toggle('clue_J_5_1_r', 'clue_J_5_1', 'clue_J_5_1_stuck')" onclick="togglestick('clue_J_5_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_5_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558225" title="Suggest a correction for this clue" rel="nofollow">27</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_5_1" class="clue_text">It can mean to assert a legal right or to work out</td>
+    <td id="clue_J_5_1_r" class="clue_text" style="display:none;"><em class="correct_response">exercise</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_6_1', 'clue_J_6_1_r', 'clue_J_6_1_stuck')" onmouseout="toggle('clue_J_6_1_r', 'clue_J_6_1', 'clue_J_6_1_stuck')" onclick="togglestick('clue_J_6_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_6_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558227" title="Suggest a correction for this clue" rel="nofollow">25</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_6_1" class="clue_text">(<a href="https://www.j-archive.com/media/2026-10-05_J_25.jpg" target="_blank">Cookie Monster presents the clue.</a>) "C" is for this cookie, me favorite, invented in the 1930s by <a href="https://www.j-archive.com/media/2026-10-05_J_25a.jpg" target="_blank">Ruth Wakefield</a>, who added chopped pieces of a candy bar to the batter</td>
+    <td id="clue_J_6_1_r" class="clue_text" style="display:none;"><em class="correct_response">chocolate chip</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_1_2', 'clue_J_1_2_r', 'clue_J_1_2_stuck')" onmouseout="toggle('clue_J_1_2_r', 'clue_J_1_2', 'clue_J_1_2_stuck')" onclick="togglestick('clue_J_1_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_1_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558216" title="Suggest a correction for this clue" rel="nofollow">18</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_1_2" class="clue_text">A 2017 addition to the Constitution of China: his "Thought on Socialism with Chinese Characteristics for the New Era"</td>
+    <td id="clue_J_1_2_r" class="clue_text" style="display:none;"><em class="correct_response">Xi (Jinping)</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_2_2', 'clue_J_2_2_r', 'clue_J_2_2_stuck')" onmouseout="toggle('clue_J_2_2_r', 'clue_J_2_2', 'clue_J_2_2_stuck')" onclick="togglestick('clue_J_2_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_2_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558218" title="Suggest a correction for this clue" rel="nofollow">19</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_2_2" class="clue_text">Victoria is the capital of this Canadian province</td>
+    <td id="clue_J_2_2_r" class="clue_text" style="display:none;">(Ken: Well done with the Canadiana.)<br /><br /><em class="correct_response">BC</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_3_2', 'clue_J_3_2_r', 'clue_J_3_2_stuck')" onmouseout="toggle('clue_J_3_2_r', 'clue_J_3_2', 'clue_J_3_2_stuck')" onclick="togglestick('clue_J_3_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_3_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558219" title="Suggest a correction for this clue" rel="nofollow">22</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_3_2" class="clue_text">Launched near the dawn of the 19th century, <a href="https://www.j-archive.com/media/2026-10-05_J_22.jpg" target="_blank">it</a>'s the oldest commissioned US naval vessel still floating around</td>
+    <td id="clue_J_3_2_r" class="clue_text" style="display:none;"><em class="correct_response">the <i>Constitution</i> (<i>Old Ironsides</i>)</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_4_2', 'clue_J_4_2_r', 'clue_J_4_2_stuck')" onmouseout="toggle('clue_J_4_2_r', 'clue_J_4_2', 'clue_J_4_2_stuck')" onclick="togglestick('clue_J_4_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_4_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558231" title="Suggest a correction for this clue" rel="nofollow">29</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_4_2" class="clue_text">Heidi Klum, Law Roach &amp; guest judges like Ice Spice</td>
+    <td id="clue_J_4_2_r" class="clue_text" style="display:none;">(Jason: What is <i>America's Got Talent</i>?)<br /><br /><em class="correct_response"><i>Project Runway</i></em><br /><br /><table width="100%"><tr><td class="wrong">Jason</td></tr></table><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_5_2', 'clue_J_5_2_r', 'clue_J_5_2_stuck')" onmouseout="toggle('clue_J_5_2_r', 'clue_J_5_2', 'clue_J_5_2_stuck')" onclick="togglestick('clue_J_5_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_5_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558226" title="Suggest a correction for this clue" rel="nofollow">26</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_5_2" class="clue_text">To try out for a role</td>
+    <td id="clue_J_5_2_r" class="clue_text" style="display:none;"><em class="correct_response">audition</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_6_2', 'clue_J_6_2_r', 'clue_J_6_2_stuck')" onmouseout="toggle('clue_J_6_2_r', 'clue_J_6_2', 'clue_J_6_2_stuck')" onclick="togglestick('clue_J_6_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_6_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558228" title="Suggest a correction for this clue" rel="nofollow">24</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_6_2" class="clue_text">(<a href="https://www.j-archive.com/media/2026-10-05_J_24.jpg" target="_blank">Cookie Monster presents the clue.</a>) Combining two flavors, vanilla &amp;  yummy cocoa, <a href="https://www.j-archive.com/media/2026-10-05_J_24a.jpg" target="_blank">this</a> cookie is named for it looking like a piece of game equipment</td>
+    <td id="clue_J_6_2_r" class="clue_text" style="display:none;"><em class="correct_response">chessboard (checkerboard)</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_1_3', 'clue_J_1_3_r', 'clue_J_1_3_stuck')" onmouseout="toggle('clue_J_1_3_r', 'clue_J_1_3', 'clue_J_1_3_stuck')" onclick="togglestick('clue_J_1_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_1_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558212" title="Suggest a correction for this clue" rel="nofollow">13</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_1_3" class="clue_text">"Je Suis Charlie" became a rallying cry after a terrorist attack on this French satire magazine</td>
+    <td id="clue_J_1_3_r" class="clue_text" style="display:none;"><em class="correct_response"><i>Charlie Hebdo</i></em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_2_3', 'clue_J_2_3_r', 'clue_J_2_3_stuck')" onmouseout="toggle('clue_J_2_3_r', 'clue_J_2_3', 'clue_J_2_3_stuck')" onclick="togglestick('clue_J_2_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_2_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value_daily_double">DD: $4,200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558213" title="Suggest a correction for this clue" rel="nofollow">14</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_2_3" class="clue_text">This national capital is on the Red River, inland from the South China Sea</td>
+    <td id="clue_J_2_3_r" class="clue_text" style="display:none;">(Erika: What is... Phnom Penh?)<br />(Ken: Oh, no, you were one country off; you had to go over to Vietnam<span class="nobreak">--</span>what is [*]?)<br /><br /><em class="correct_response">Hanoi</em><br /><br /><table width="100%"><tr><td class="wrong">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_3_3', 'clue_J_3_3_r', 'clue_J_3_3_stuck')" onmouseout="toggle('clue_J_3_3_r', 'clue_J_3_3', 'clue_J_3_3_stuck')" onclick="togglestick('clue_J_3_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_3_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558214" title="Suggest a correction for this clue" rel="nofollow">11</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_3_3" class="clue_text"><a href="https://www.j-archive.com/media/2026-10-05_J_11.jpg" target="_blank">He</a> set a record for consecutive Major League game appearances, but in a cruel twist of fate died just shy of his 38th birthday</td>
+    <td id="clue_J_3_3_r" class="clue_text" style="display:none;"><em class="correct_response">Gehrig</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_4_3', 'clue_J_4_3_r', 'clue_J_4_3_stuck')" onmouseout="toggle('clue_J_4_3_r', 'clue_J_4_3', 'clue_J_4_3_stuck')" onclick="togglestick('clue_J_4_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_4_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558220" title="Suggest a correction for this clue" rel="nofollow">21</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_4_3" class="clue_text">Bruno Tonioli,<br />Carrie Ann Inaba</td>
+    <td id="clue_J_4_3_r" class="clue_text" style="display:none;"><em class="correct_response"><i>Dancing with the Stars</i></em><br /><br /><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_5_3', 'clue_J_5_3_r', 'clue_J_5_3_stuck')" onmouseout="toggle('clue_J_5_3_r', 'clue_J_5_3', 'clue_J_5_3_stuck')" onclick="togglestick('clue_J_5_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_5_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558221" title="Suggest a correction for this clue" rel="nofollow">16</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_5_3" class="clue_text">Pedants argue about whether this verb should be used as a synonym of its 7-letter dictionary neighbor compose</td>
+    <td id="clue_J_5_3_r" class="clue_text" style="display:none;">(Jason: What is decompose?)<br /><br /><em class="correct_response">comprise</em><br /><br /><table width="100%"><tr><td class="right">Erika</td><td class="wrong">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_6_3', 'clue_J_6_3_r', 'clue_J_6_3_stuck')" onmouseout="toggle('clue_J_6_3_r', 'clue_J_6_3', 'clue_J_6_3_stuck')" onclick="togglestick('clue_J_6_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_6_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558223" title="Suggest a correction for this clue" rel="nofollow">17</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_6_3" class="clue_text">(<a href="https://www.j-archive.com/media/2026-10-05_J_17.jpg" target="_blank">Cookie Monster presents the clue.</a>) Me love sledding in the winter, &amp; <a href="https://www.j-archive.com/media/2026-10-05_J_17a.jpg" target="_blank">these</a> buttery cookies covered in powdered sugar remind me of what sleds glide along</td>
+    <td id="clue_J_6_3_r" class="clue_text" style="display:none;"><em class="correct_response">a snowball (snowball cookies)</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_1_4', 'clue_J_1_4_r', 'clue_J_1_4_stuck')" onmouseout="toggle('clue_J_1_4_r', 'clue_J_1_4', 'clue_J_1_4_stuck')" onclick="togglestick('clue_J_1_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_1_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558203" title="Suggest a correction for this clue" rel="nofollow">3</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_1_4" class="clue_text">On this opposition leader's return to Russia in 2021, he was imprisoned &amp; he died in custody in 2024 in a Siberian penal colony</td>
+    <td id="clue_J_1_4_r" class="clue_text" style="display:none;"><em class="correct_response">Navalny</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_2_4', 'clue_J_2_4_r', 'clue_J_2_4_stuck')" onmouseout="toggle('clue_J_2_4_r', 'clue_J_2_4', 'clue_J_2_4_stuck')" onclick="togglestick('clue_J_2_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_2_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558205" title="Suggest a correction for this clue" rel="nofollow">4</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_2_4" class="clue_text">Santa Cruz de Tenerife is the co-capital of these islands in the Atlantic</td>
+    <td id="clue_J_2_4_r" class="clue_text" style="display:none;"><em class="correct_response">the Canary Islands</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_3_4', 'clue_J_3_4_r', 'clue_J_3_4_stuck')" onmouseout="toggle('clue_J_3_4_r', 'clue_J_3_4', 'clue_J_3_4_stuck')" onclick="togglestick('clue_J_3_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_3_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558211" title="Suggest a correction for this clue" rel="nofollow">10</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_3_4" class="clue_text">"Jake" was the name on the first batch of sour mash from a Kentucky bourbon in 1795; it uses a different first name now as this brand</td>
+    <td id="clue_J_3_4_r" class="clue_text" style="display:none;"><em class="correct_response">Jim Beam</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_4_4', 'clue_J_4_4_r', 'clue_J_4_4_stuck')" onmouseout="toggle('clue_J_4_4_r', 'clue_J_4_4', 'clue_J_4_4_stuck')" onclick="togglestick('clue_J_4_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_4_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558215" title="Suggest a correction for this clue" rel="nofollow">12</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_4_4" class="clue_text">Under the tent: Paul Hollywood &amp; Nigella Lawson, replacing the recently retired Prue Leith</td>
+    <td id="clue_J_4_4_r" class="clue_text" style="display:none;"><em class="correct_response"><i>The Great British Baking Show</i> (<i>Bake Off</i>)</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_5_4', 'clue_J_5_4_r', 'clue_J_5_4_stuck')" onmouseout="toggle('clue_J_5_4_r', 'clue_J_5_4', 'clue_J_5_4_stuck')" onclick="togglestick('clue_J_5_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_5_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558222" title="Suggest a correction for this clue" rel="nofollow">15</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_5_4" class="clue_text">To renounce a throne</td>
+    <td id="clue_J_5_4_r" class="clue_text" style="display:none;"><em class="correct_response">abdicate</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_6_4', 'clue_J_6_4_r', 'clue_J_6_4_stuck')" onmouseout="toggle('clue_J_6_4_r', 'clue_J_6_4', 'clue_J_6_4_stuck')" onclick="togglestick('clue_J_6_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_6_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558209" title="Suggest a correction for this clue" rel="nofollow">8</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_6_4" class="clue_text">(<a href="https://www.j-archive.com/media/2026-10-05_J_08.jpg" target="_blank">Cookie Monster presents the clue.</a>) Num num num num! Me Granny Monster always made <a href="https://www.j-archive.com/media/2026-10-05_J_08a.jpg" target="_blank">these</a> cookies that have cinnamon in them &amp; are really fun to say</td>
+    <td id="clue_J_6_4_r" class="clue_text" style="display:none;"><em class="correct_response">a snickerdoodle</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_1_5', 'clue_J_1_5_r', 'clue_J_1_5_stuck')" onmouseout="toggle('clue_J_1_5_r', 'clue_J_1_5', 'clue_J_1_5_stuck')" onclick="togglestick('clue_J_1_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_1_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558204" title="Suggest a correction for this clue" rel="nofollow">2</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_1_5" class="clue_text">The Tapanuli, a new species of this great ape, was discovered in 2017 in Indonesia's North Sumatra province</td>
+    <td id="clue_J_1_5_r" class="clue_text" style="display:none;"><em class="correct_response">orangutan</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_2_5', 'clue_J_2_5_r', 'clue_J_2_5_stuck')" onmouseout="toggle('clue_J_2_5_r', 'clue_J_2_5', 'clue_J_2_5_stuck')" onclick="togglestick('clue_J_2_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_2_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558201" title="Suggest a correction for this clue" rel="nofollow">1</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_2_5" class="clue_text">This administrative capital of South Africa was named by early president Marthinus for his father Andries</td>
+    <td id="clue_J_2_5_r" class="clue_text" style="display:none;">(Ken: Rian, me telling you to select first.)<br /><br /><em class="correct_response">Pretoria</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_3_5', 'clue_J_3_5_r', 'clue_J_3_5_stuck')" onmouseout="toggle('clue_J_3_5_r', 'clue_J_3_5', 'clue_J_3_5_stuck')" onclick="togglestick('clue_J_3_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_3_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558206" title="Suggest a correction for this clue" rel="nofollow">5</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_3_5" class="clue_text">Sorry, Charlie! The world's oldest hereditary monarchy is in this country, tracing back 2,600 years</td>
+    <td id="clue_J_3_5_r" class="clue_text" style="display:none;">(Jason: What is Brunei?)<br /><br /><em class="correct_response">Japan</em><br /><br /><table width="100%"><tr><td class="wrong">Jason</td></tr></table><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_4_5', 'clue_J_4_5_r', 'clue_J_4_5_stuck')" onmouseout="toggle('clue_J_4_5_r', 'clue_J_4_5', 'clue_J_4_5_stuck')" onclick="togglestick('clue_J_4_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_4_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558207" title="Suggest a correction for this clue" rel="nofollow">6</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_4_5" class="clue_text">Gail Simmons,<br />Tom Colicchio</td>
+    <td id="clue_J_4_5_r" class="clue_text" style="display:none;"><em class="correct_response"><i>Top Chef</i></em><br /><br /><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_5_5', 'clue_J_5_5_r', 'clue_J_5_5_stuck')" onmouseout="toggle('clue_J_5_5_r', 'clue_J_5_5', 'clue_J_5_5_stuck')" onclick="togglestick('clue_J_5_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_5_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558208" title="Suggest a correction for this clue" rel="nofollow">9</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_5_5" class="clue_text">To put up with, or to manage to take a drug without having serious side effects</td>
+    <td id="clue_J_5_5_r" class="clue_text" style="display:none;"><em class="correct_response">tolerate</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_J_6_5', 'clue_J_6_5_r', 'clue_J_6_5_stuck')" onmouseout="toggle('clue_J_6_5_r', 'clue_J_6_5', 'clue_J_6_5_stuck')" onclick="togglestick('clue_J_6_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_J_6_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558210" title="Suggest a correction for this clue" rel="nofollow">7</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_J_6_5" class="clue_text">(<a href="https://www.j-archive.com/media/2026-10-05_J_07.jpg" target="_blank">Cookie Monster presents the clue.</a>) Me never been to Austria, but me hear that like a tasty torte, <a href="https://www.j-archive.com/media/2026-10-05_J_07a.jpg" target="_blank">these</a> cookies are filled with raspberry or other fruit jam<span class="nobreak">--</span>nummy, nummy, nummy; me might need to take a trip</td>
+    <td id="clue_J_6_5_r" class="clue_text" style="display:none;">(Erika: What is Vienna?)<br /><br /><em class="correct_response">a Linzer</em><br /><br /><table width="100%"><tr><td class="right">Rian</td><td class="wrong">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+              <h3>Scores at the first commercial break (after clue 14):</h3>
+
+              <table>
+                <tr>
+                  <td class="score_player_nickname">Rian</td>
+                  <td class="score_player_nickname">Erika</td>
+                  <td class="score_player_nickname">Jason</td>
+                </tr>
+                <tr>
+                  <td class="score_positive">$2,400</td>
+                  <td class="score_positive">$0</td>
+                  <td class="score_positive">$600</td>
+                </tr>
+              </table>
+
+              <h3>Scores at the end of the Jeopardy! Round:</h3>
+
+              <table>
+                <tr>
+                  <td class="score_player_nickname">Rian</td>
+                  <td class="score_player_nickname">Erika</td>
+                  <td class="score_player_nickname">Jason</td>
+                </tr>
+                <tr>
+                  <td class="score_positive">$3,800</td>
+                  <td class="score_positive">$2,400</td>
+                  <td class="score_positive">$400</td>
+                </tr>
+              </table>
+            </div>
+            <div id="double_jeopardy_round">
+              <h2>Double Jeopardy! Round</h2>
+
+<table class="round">
+  <tr>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">BOATS IN BOOKS</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">MURDER MOST FOUL</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">"C" IN SCIENCE</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">ROCK &amp; ROLL HALL OF FAMERS</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">RELIGION</td></tr>
+  <tr><td class="category_comments"></td></tr>
+</table>
+    </td>
+    <td class="category">
+      
+<table>
+  <tr><td class="category_name">SHORT WORD, LONG WORD</td></tr>
+  <tr><td class="category_comments">(Ken: These are all phrases where the first word has just one syllable, but the second word has three or more.)</td></tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_1_1', 'clue_DJ_1_1_r', 'clue_DJ_1_1_stuck')" onmouseout="toggle('clue_DJ_1_1_r', 'clue_DJ_1_1', 'clue_DJ_1_1_stuck')" onclick="togglestick('clue_DJ_1_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_1_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558247" title="Suggest a correction for this clue" rel="nofollow">17</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_1_1" class="clue_text">The USS Dallas, a submarine escorting a defecting Russian counterpart</td>
+    <td id="clue_DJ_1_1_r" class="clue_text" style="display:none;">(Rian: What is... oh, sorry.)<br /><br /><em class="correct_response"><i>The Hunt for Red October</i></em><br /><br /><table width="100%"><tr><td class="wrong">Rian</td><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_2_1', 'clue_DJ_2_1_r', 'clue_DJ_2_1_stuck')" onmouseout="toggle('clue_DJ_2_1_r', 'clue_DJ_2_1', 'clue_DJ_2_1_stuck')" onclick="togglestick('clue_DJ_2_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_2_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558252" title="Suggest a correction for this clue" rel="nofollow">30</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_2_1" class="clue_text">The unsolved 1841 death of Mary Rogers might be forgotten had it not inspired this man's story "The Mystery of Marie Roget"</td>
+    <td id="clue_DJ_2_1_r" class="clue_text" style="display:none;"><em class="correct_response">(Edgar Allan) Poe</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_3_1', 'clue_DJ_3_1_r', 'clue_DJ_3_1_stuck')" onmouseout="toggle('clue_DJ_3_1_r', 'clue_DJ_3_1', 'clue_DJ_3_1_stuck')" onclick="togglestick('clue_DJ_3_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_3_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558255" title="Suggest a correction for this clue" rel="nofollow">27</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_3_1" class="clue_text">As opposed to meteorology, this -ology studies the weather over extended periods of time</td>
+    <td id="clue_DJ_3_1_r" class="clue_text" style="display:none;"><em class="correct_response">climatology</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_4_1', 'clue_DJ_4_1_r', 'clue_DJ_4_1_stuck')" onmouseout="toggle('clue_DJ_4_1_r', 'clue_DJ_4_1', 'clue_DJ_4_1_stuck')" onclick="togglestick('clue_DJ_4_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_4_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558256" title="Suggest a correction for this clue" rel="nofollow">28</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_4_1" class="clue_text">All hail this 2026 inductee the Hall calls "the original female superstar from hip-hop's golden age"</td>
+    <td id="clue_DJ_4_1_r" class="clue_text" style="display:none;"><em class="correct_response">Queen Latifah</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_5_1', 'clue_DJ_5_1_r', 'clue_DJ_5_1_stuck')" onmouseout="toggle('clue_DJ_5_1_r', 'clue_DJ_5_1', 'clue_DJ_5_1_stuck')" onclick="togglestick('clue_DJ_5_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_5_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558257" title="Suggest a correction for this clue" rel="nofollow">24</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_5_1" class="clue_text">Drop "bar" or "bat" from the name of a Jewish ceremony to get this, a good deed like giving to charity or helping those in need</td>
+    <td id="clue_DJ_5_1_r" class="clue_text" style="display:none;"><em class="correct_response">a mitzvah</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_6_1', 'clue_DJ_6_1_r', 'clue_DJ_6_1_stuck')" onmouseout="toggle('clue_DJ_6_1_r', 'clue_DJ_6_1', 'clue_DJ_6_1_stuck')" onclick="togglestick('clue_DJ_6_1_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_6_1_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$400</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558260" title="Suggest a correction for this clue" rel="nofollow">29</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_6_1" class="clue_text">I'd be in a state of unease too if I was "on" these, the latter part being sharp, curved nails used to fasten cloth</td>
+    <td id="clue_DJ_6_1_r" class="clue_text" style="display:none;">(Rian: What are pins and needles?)<br /><br /><em class="correct_response">tenterhooks</em><br /><br /><table width="100%"><tr><td class="wrong">Rian</td><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_1_2', 'clue_DJ_1_2_r', 'clue_DJ_1_2_stuck')" onmouseout="toggle('clue_DJ_1_2_r', 'clue_DJ_1_2', 'clue_DJ_1_2_stuck')" onclick="togglestick('clue_DJ_1_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_1_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558248" title="Suggest a correction for this clue" rel="nofollow">16</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_1_2" class="clue_text">The Fuwalda, a ship that maroons the title man's parents in Africa</td>
+    <td id="clue_DJ_1_2_r" class="clue_text" style="display:none;">(Ken: Which is how he becomes [*].)<br /><br /><em class="correct_response"><i>Tarzan of the Apes</i></em><br /><br /><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_2_2', 'clue_DJ_2_2_r', 'clue_DJ_2_2_stuck')" onmouseout="toggle('clue_DJ_2_2_r', 'clue_DJ_2_2', 'clue_DJ_2_2_stuck')" onclick="togglestick('clue_DJ_2_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_2_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558253" title="Suggest a correction for this clue" rel="nofollow">26</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_2_2" class="clue_text">Prosecutors said 4-time widow "Flypaper" Lyda Southard boiled the stuff to extract this poison, &amp; with it, insurance money</td>
+    <td id="clue_DJ_2_2_r" class="clue_text" style="display:none;"><em class="correct_response">arsenic</em><br /><br /><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_3_2', 'clue_DJ_3_2_r', 'clue_DJ_3_2_stuck')" onmouseout="toggle('clue_DJ_3_2_r', 'clue_DJ_3_2', 'clue_DJ_3_2_stuck')" onclick="togglestick('clue_DJ_3_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_3_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558241" title="Suggest a correction for this clue" rel="nofollow">15</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_3_2" class="clue_text">This class of about 45,000 creatures includes lobsters, yummy to humans, &amp; tiny copepods, yummy to many fish species</td>
+    <td id="clue_DJ_3_2_r" class="clue_text" style="display:none;"><em class="correct_response">crustaceans</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_4_2', 'clue_DJ_4_2_r', 'clue_DJ_4_2_stuck')" onmouseout="toggle('clue_DJ_4_2_r', 'clue_DJ_4_2', 'clue_DJ_4_2_stuck')" onclick="togglestick('clue_DJ_4_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_4_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558242" title="Suggest a correction for this clue" rel="nofollow">11</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_4_2" class="clue_text">Born William Broad in London, this 2026 inductee derived his stage name from a teacher's comment that he was lazy</td>
+    <td id="clue_DJ_4_2_r" class="clue_text" style="display:none;">(Ken: They thought he was a little idle.)<br /><br /><em class="correct_response">Billy Idol</em><br /><br /><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_5_2', 'clue_DJ_5_2_r', 'clue_DJ_5_2_stuck')" onmouseout="toggle('clue_DJ_5_2_r', 'clue_DJ_5_2', 'clue_DJ_5_2_stuck')" onclick="togglestick('clue_DJ_5_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_5_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558258" title="Suggest a correction for this clue" rel="nofollow">23</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_5_2" class="clue_text">This son of Abraham &amp; Hagar is considered a prophet by Muslims &amp; a builder of the Kaaba</td>
+    <td id="clue_DJ_5_2_r" class="clue_text" style="display:none;"><em class="correct_response">Ishmael</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_6_2', 'clue_DJ_6_2_r', 'clue_DJ_6_2_stuck')" onmouseout="toggle('clue_DJ_6_2_r', 'clue_DJ_6_2', 'clue_DJ_6_2_stuck')" onclick="togglestick('clue_DJ_6_2_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_6_2_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$800</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558261" title="Suggest a correction for this clue" rel="nofollow">25</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_6_2" class="clue_text">Infallible decrees from the pope are considered this, Latin for "from the chair"</td>
+    <td id="clue_DJ_6_2_r" class="clue_text" style="display:none;"><em class="correct_response"><i>ex cathedra</i></em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_1_3', 'clue_DJ_1_3_r', 'clue_DJ_1_3_stuck')" onmouseout="toggle('clue_DJ_1_3_r', 'clue_DJ_1_3', 'clue_DJ_1_3_stuck')" onclick="togglestick('clue_DJ_1_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_1_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558233" title="Suggest a correction for this clue" rel="nofollow">2</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_1_3" class="clue_text">Piloted by John Blackthorne, the Erasmus, blown off course into Japanese waters</td>
+    <td id="clue_DJ_1_3_r" class="clue_text" style="display:none;"><em class="correct_response"><i>Shōgun</i></em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_2_3', 'clue_DJ_2_3_r', 'clue_DJ_2_3_stuck')" onmouseout="toggle('clue_DJ_2_3_r', 'clue_DJ_2_3', 'clue_DJ_2_3_stuck')" onclick="togglestick('clue_DJ_2_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_2_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558254" title="Suggest a correction for this clue" rel="nofollow">22</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_2_3" class="clue_text">"The Troubles" come to life in the book "Say Nothing", about the 1972 abduction &amp; murder of a widowed mother of 10 in this city</td>
+    <td id="clue_DJ_2_3_r" class="clue_text" style="display:none;">(Jason: What is... Glasgow?)<br /><br /><em class="correct_response">Belfast</em><br /><br /><table width="100%"><tr><td class="right">Rian</td><td class="wrong">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_3_3', 'clue_DJ_3_3_r', 'clue_DJ_3_3_stuck')" onmouseout="toggle('clue_DJ_3_3_r', 'clue_DJ_3_3', 'clue_DJ_3_3_stuck')" onclick="togglestick('clue_DJ_3_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_3_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558237" title="Suggest a correction for this clue" rel="nofollow">6</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_3_3" class="clue_text">This part of the eye covering the iris, pupil &amp; lens has no blood vessels</td>
+    <td id="clue_DJ_3_3_r" class="clue_text" style="display:none;"><em class="correct_response">the cornea</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_4_3', 'clue_DJ_4_3_r', 'clue_DJ_4_3_stuck')" onmouseout="toggle('clue_DJ_4_3_r', 'clue_DJ_4_3', 'clue_DJ_4_3_stuck')" onclick="togglestick('clue_DJ_4_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_4_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558243" title="Suggest a correction for this clue" rel="nofollow">12</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_4_3" class="clue_text">Kate Bush's 2023 induction tribute featured St. Vincent singing this song of Kate's</td>
+    <td id="clue_DJ_4_3_r" class="clue_text" style="display:none;"><em class="correct_response">"Running Up That Hill"</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_5_3', 'clue_DJ_5_3_r', 'clue_DJ_5_3_stuck')" onmouseout="toggle('clue_DJ_5_3_r', 'clue_DJ_5_3', 'clue_DJ_5_3_stuck')" onclick="togglestick('clue_DJ_5_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_5_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558259" title="Suggest a correction for this clue" rel="nofollow">21</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_5_3" class="clue_text">Many adherents of Rastafarianism believe that <a href="https://www.j-archive.com/media/2026-10-05_DJ_21.jpg" target="_blank">this</a> Ethiopian emperor was the Messiah</td>
+    <td id="clue_DJ_5_3_r" class="clue_text" style="display:none;"><em class="correct_response">Haile Selassie</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_6_3', 'clue_DJ_6_3_r', 'clue_DJ_6_3_stuck')" onmouseout="toggle('clue_DJ_6_3_r', 'clue_DJ_6_3', 'clue_DJ_6_3_stuck')" onclick="togglestick('clue_DJ_6_3_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_6_3_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558249" title="Suggest a correction for this clue" rel="nofollow">20</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_6_3" class="clue_text">Completes the phrase capturing the YOLO mentality, "as if there were..."</td>
+    <td id="clue_DJ_6_3_r" class="clue_text" style="display:none;"><em class="correct_response">no tomorrow</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_1_4', 'clue_DJ_1_4_r', 'clue_DJ_1_4_stuck')" onmouseout="toggle('clue_DJ_1_4_r', 'clue_DJ_1_4', 'clue_DJ_1_4_stuck')" onclick="togglestick('clue_DJ_1_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_1_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558232" title="Suggest a correction for this clue" rel="nofollow">1</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_1_4" class="clue_text">The USS Nathan James, the only known American Navy vessel to survive a nuclear war</td>
+    <td id="clue_DJ_1_4_r" class="clue_text" style="display:none;"><em class="correct_response"><i>The Last Ship</i></em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_2_4', 'clue_DJ_2_4_r', 'clue_DJ_2_4_stuck')" onmouseout="toggle('clue_DJ_2_4_r', 'clue_DJ_2_4', 'clue_DJ_2_4_stuck')" onclick="togglestick('clue_DJ_2_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_2_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558234" title="Suggest a correction for this clue" rel="nofollow">4</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_2_4" class="clue_text">Crime writer Michael Connelly thinks the 1960s Zodiac Killer also murdered Elizabeth Short, known as this, in L.A. in 1947</td>
+    <td id="clue_DJ_2_4_r" class="clue_text" style="display:none;"><em class="correct_response">the Black Dahlia</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_3_4', 'clue_DJ_3_4_r', 'clue_DJ_3_4_stuck')" onmouseout="toggle('clue_DJ_3_4_r', 'clue_DJ_3_4', 'clue_DJ_3_4_stuck')" onclick="togglestick('clue_DJ_3_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_3_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558235" title="Suggest a correction for this clue" rel="nofollow">3</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_3_4" class="clue_text">Scientists have stopped using this hyphenated term for skeletons from 40,000 years ago<span class="nobreak">--</span>they now prefer early modern humans</td>
+    <td id="clue_DJ_3_4_r" class="clue_text" style="display:none;"><em class="correct_response">Cro-Magnon</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_4_4', 'clue_DJ_4_4_r', 'clue_DJ_4_4_stuck')" onmouseout="toggle('clue_DJ_4_4_r', 'clue_DJ_4_4', 'clue_DJ_4_4_stuck')" onclick="togglestick('clue_DJ_4_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_4_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558244" title="Suggest a correction for this clue" rel="nofollow">14</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_4_4" class="clue_text">After 6 previous nominations, in 2024 the Hall at last inducted this influential "Kick Out the Jams" Detroit quintet</td>
+    <td id="clue_DJ_4_4_r" class="clue_text" style="display:none;">(Ken: That record by [*].)<br /><br /><em class="correct_response">MC5</em><br /><br /><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_5_4', 'clue_DJ_5_4_r', 'clue_DJ_5_4_stuck')" onmouseout="toggle('clue_DJ_5_4_r', 'clue_DJ_5_4', 'clue_DJ_5_4_stuck')" onclick="togglestick('clue_DJ_5_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_5_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value_daily_double">DD: $6,200</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558236" title="Suggest a correction for this clue" rel="nofollow">5</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_5_4" class="clue_text">The majority of the followers of this religion live in the Indian state of Punjab</td>
+    <td id="clue_DJ_5_4_r" class="clue_text" style="display:none;"><em class="correct_response">Sikhism</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_6_4', 'clue_DJ_6_4_r', 'clue_DJ_6_4_stuck')" onmouseout="toggle('clue_DJ_6_4_r', 'clue_DJ_6_4', 'clue_DJ_6_4_stuck')" onclick="togglestick('clue_DJ_6_4_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_6_4_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$1600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558250" title="Suggest a correction for this clue" rel="nofollow">18</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_6_4" class="clue_text">If you &amp; someone else are "at" these, you may be visiting coastal turtles, or engaged in a dispute</td>
+    <td id="clue_DJ_6_4_r" class="clue_text" style="display:none;"><em class="correct_response">loggerheads</em><br /><br /><table width="100%"><tr><td class="right">Jason</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_1_5', 'clue_DJ_1_5_r', 'clue_DJ_1_5_stuck')" onmouseout="toggle('clue_DJ_1_5_r', 'clue_DJ_1_5', 'clue_DJ_1_5_stuck')" onclick="togglestick('clue_DJ_1_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_1_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$2000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558239" title="Suggest a correction for this clue" rel="nofollow">9</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_1_5" class="clue_text">The We're Here, a fishing schooner that rescues a spoiled young boy</td>
+    <td id="clue_DJ_1_5_r" class="clue_text" style="display:none;">(Erika: What is <i>The Swiss Family Robinson</i>?)<br />...<br />(Ken: By Kipling, well done.)<br /><br /><em class="correct_response"><i>Captains Courageous</i></em><br /><br /><table width="100%"><tr><td class="right">Rian</td><td class="wrong">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_2_5', 'clue_DJ_2_5_r', 'clue_DJ_2_5_stuck')" onmouseout="toggle('clue_DJ_2_5_r', 'clue_DJ_2_5', 'clue_DJ_2_5_stuck')" onclick="togglestick('clue_DJ_2_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_2_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$2000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558240" title="Suggest a correction for this clue" rel="nofollow">8</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_2_5" class="clue_text">This "colorful" district of London's East End became notorious for its association with Jack the Ripper's killings</td>
+    <td id="clue_DJ_2_5_r" class="clue_text" style="display:none;"><em class="correct_response">Whitechapel</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_3_5', 'clue_DJ_3_5_r', 'clue_DJ_3_5_stuck')" onmouseout="toggle('clue_DJ_3_5_r', 'clue_DJ_3_5', 'clue_DJ_3_5_stuck')" onclick="togglestick('clue_DJ_3_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_3_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value_daily_double">DD: $3,600</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558238" title="Suggest a correction for this clue" rel="nofollow">7</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_3_5" class="clue_text">Developed in your adrenal glands, it's your body's main stress hormone</td>
+    <td id="clue_DJ_3_5_r" class="clue_text" style="display:none;"><em class="correct_response">cortisol</em><br /><br /><table width="100%"><tr><td class="right">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_4_5', 'clue_DJ_4_5_r', 'clue_DJ_4_5_stuck')" onmouseout="toggle('clue_DJ_4_5_r', 'clue_DJ_4_5', 'clue_DJ_4_5_stuck')" onclick="togglestick('clue_DJ_4_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_4_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$2000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558245" title="Suggest a correction for this clue" rel="nofollow">13</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_4_5" class="clue_text">Inducting this "Mississippi Goddam" singer in 2018, Mary J. Blige said her songs about injustice &amp; struggle still resonated</td>
+    <td id="clue_DJ_4_5_r" class="clue_text" style="display:none;"><em class="correct_response">Nina Simone</em><br /><br /><table width="100%"><tr><td class="right">Rian</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_5_5', 'clue_DJ_5_5_r', 'clue_DJ_5_5_stuck')" onmouseout="toggle('clue_DJ_5_5_r', 'clue_DJ_5_5', 'clue_DJ_5_5_stuck')" onclick="togglestick('clue_DJ_5_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_5_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$2000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558246" title="Suggest a correction for this clue" rel="nofollow">10</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_5_5" class="clue_text">Pope Leo XIV is not only the first American pope but also the first of the Order of this saint of Hippo</td>
+    <td id="clue_DJ_5_5_r" class="clue_text" style="display:none;">(Erika: What is... uh...)<br /><br /><em class="correct_response">Augustine</em><br /><br /><table width="100%"><tr><td class="right">Rian</td><td class="wrong">Erika</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+    <td class="clue">
+<table>
+  <tr>
+    <td>
+      <div onmouseover="toggle('clue_DJ_6_5', 'clue_DJ_6_5_r', 'clue_DJ_6_5_stuck')" onmouseout="toggle('clue_DJ_6_5_r', 'clue_DJ_6_5', 'clue_DJ_6_5_stuck')" onclick="togglestick('clue_DJ_6_5_stuck')">
+        <table class="clue_header">
+          <tr>
+            <td id="clue_DJ_6_5_stuck" class="clue_unstuck">&#160;&#160;&#160;</td>
+            <td class="clue_value">$2000</td>
+            <td class="clue_order_number"><a href="suggestcorrection.php?clue_id=558251" title="Suggest a correction for this clue" rel="nofollow">19</a></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="clue_DJ_6_5" class="clue_text">A legal term meaning "forever", or a Too Much Joy song title</td>
+    <td id="clue_DJ_6_5_r" class="clue_text" style="display:none;">(Jason: What is <i>ad infinitum</i>?)<br /><br /><em class="correct_response">in perpetuity</em><br /><br /><table width="100%"><tr><td class="wrong">Jason</td></tr></table><table width="100%"><tr><td class="wrong">Triple Stumper</td></tr></table></td>
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+              <h3>Scores at the end of the Double Jeopardy! Round:</h3>
+              <table>
+                <tr>
+                  <td class="score_player_nickname">Rian</td>
+                  <td class="score_player_nickname">Erika</td>
+                  <td class="score_player_nickname">Jason</td>
+                </tr>
+                <tr>
+                  <td class="score_positive">$28,800</td>
+                  <td class="score_positive">$6,400</td>
+                  <td class="score_negative">-$400</td>
+                </tr>
+                <tr>
+                  <td class="score_remarks">(<a href="help.php#lock">lock game</a>)</td>
+                  <td class="score_remarks"></td>
+                  <td class="score_remarks"></td>
+                </tr>
+              </table>
+              <p><a href="wageringcalculator.php?a=28800&amp;b=6400&amp;c=-400&amp;player_a=Rian&amp;player_b=Erika&amp;player_c=Jason">[wagering suggestions for these scores]</a></p>
+            </div>
+            <div id="final_jeopardy_round">
+              <h2>Final Jeopardy! Round</h2>
+
+<table class="final_round">
+  <tr>
+    <td class="category">
+      
+<div onmouseover="toggle('clue_FJ', 'clue_FJ_r', 'clue_FJ_stuck')" onmouseout="toggle('clue_FJ_r', 'clue_FJ', 'clue_FJ_stuck')" onclick="togglestick('clue_FJ_stuck')">
+  <table>
+    <tr><td class="category_name">AMERICAN HISTORY &amp; GEOGRAPHY</td></tr>
+    <tr><td class="category_comments"></td></tr>
+  </table>
+</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="clue">
+<table>
+  <tr>
+    <td id="clue_FJ" class="clue_text">In 2026 an annual 1,966-mile re-ride between these 2 cities took place June 15-25, passing through Lake Tahoe on the 24th</td>
+    <td id="clue_FJ_r" class="clue_text" style="display:none;">(Ken: No, this event is a reenactment of the Pony Express, so, they went between [*].)<table><tr><td class="wrong">Erika</td><td rowspan="2" valign="top">What is San Francisco and Chicago</td></tr><tr><td>$6,395</td></tr><tr><td class="wrong">Rian</td><td rowspan="2" valign="top">What are Santa Fe + L.A.?</td></tr><tr><td>$15,000</td></tr></table><em class="correct_response">St. Joseph & Sacramento</em></td>
+  </tr>
+</table>
+<var id="clue_FJ_stuck"></var>
+    </td>
+   </tr>
+</table>
+              <h3>Final scores:</h3>
+              <table>
+                <tr>
+                  <td class="score_player_nickname">Rian</td>
+                  <td class="score_player_nickname">Erika</td>
+                  <td class="score_player_nickname">Jason</td>
+                </tr>
+                <tr>
+                  <td class="score_positive">$13,800</td>
+                  <td class="score_positive">$5</td>
+                  <td class="score_negative">-$400</td>
+                </tr>
+                <tr>
+                  <td class="score_remarks">3-day champion: $39,701</td>
+                  <td class="score_remarks">2nd place: $3,000</td>
+                  <td class="score_remarks">3rd place: $2,000</td>
+                </tr>
+              </table>
+
+              <h3>Game dynamics:</h3>
+              <div class="chart-wrapper"><iframe src="chartgame.php?game_id=9548" title="Game dynamics graph" width="400" height="200" frameborder="0" scrolling="no" style="border:none;"></iframe></div>
+
+              <h3><a href="help.php#coryatscore">Coryat scores</a>:</h3>
+              <table>
+                <tr>
+                  <td class="score_player_nickname">Rian</td>
+                  <td class="score_player_nickname">Erika</td>
+                  <td class="score_player_nickname">Jason</td>
+                </tr>
+                <tr>
+                  <td class="score_positive">$24,200</td>
+                  <td class="score_positive">$9,000</td>
+                  <td class="score_negative">-$400</td>
+                </tr>
+                <tr>
+                  <td class="score_remarks">22 R<br />(including 1 DD),<br />2 W</td>
+                  <td class="score_remarks">18 R<br />(including 1 DD),<br />5 W<br />(including 1 DD)</td>
+                  <td class="score_remarks">9 R,<br />6 W</td>
+                </tr>
+              </table>
+
+              <h3><a href="help.php#combinedcoryat">Combined Coryat</a>: $32,800</h3>
+              <h4><a href="showgameresponses.php?game_id=9548" target="_blank">[game responses]</a> <a href="showscores.php?game_id=9548" target="_blank">[game scores]</a> <a href="suggestcorrection.php?game_id=9548" rel="nofollow">[suggest correction]</a></h4>
+              <h6 style="margin-left: 0em;">Game tape date: 2026-08-31</h6>
+            </div>
+
+
+            <script type="text/javascript">
+            <!--
+	          function toggle(element_to_hide, element_to_show, stuck) {
+	            if (document.getElementById(stuck).style.fontWeight != "bold") {
+                document.getElementById(element_to_hide).style.display = "none";
+	              document.getElementById(element_to_show).style.display = "table-cell";
+	            }
+            }
+
+            function togglestick(stuck) {
+              var el = document.getElementById(stuck);
+              el.style.fontWeight != "bold" ? el.style.fontWeight = "bold" : el.style.fontWeight = "normal";
+            }
+            -->
+            </script>
+</div>
+
+<div id="disclaimer">The J! Archive is created by fans, for fans.  Scraping, republication, monetization, and malicious use prohibited; this site may use cookies and collect identifying information.  See <a href="help.php#terms">terms</a>.  The <i><a href="https://www.jeopardy.com">Jeopardy!</a></i> game show and all elements thereof, including but not limited to copyright and trademark thereto, are the property of Jeopardy Productions, Inc. and are protected under law.  This website is not affiliated with, sponsored by, or operated by Jeopardy Productions, Inc.  Join the discussion at <a href="https://jboard.tv">JBoard.tv</a>.</div>
+<script>
+  const searchInput = document.getElementById("search");
+  searchInput.addEventListener("focus", function(){
+    searchInput.style.width = "400px";
+  });
+  searchInput.addEventListener("blur", function(){
+    if (searchInput.value.length === 0) {
+      searchInput.style.width = "100px";
+    }
+  });
+</script>
+<script src="https://www.j-archive.com/scripts.js" type="text/javascript"></script>
+</body>
+</html>
