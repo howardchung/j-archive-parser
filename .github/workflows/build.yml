@@ -13,22 +13,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v7
         with:
           node-version: 24.x
       - run: npm ci
-      - name: Update apt
-        run: sudo apt-get update
-      - name: Install deps
-        run: sudo apt-get install libxml2-dev libxslt-dev
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v7
         with:
-          python-version: '3'
+          python-version: '3.15'
           cache: 'pip'
       - run: pip install -r requirements.txt
       # Fetch the last json.gz file (not needed unless we want to diff contents to reduce processing)
